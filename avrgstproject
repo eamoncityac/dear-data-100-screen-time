@@ -1,0 +1,72 @@
+// an array called screenTimeData that contains the screen time data in minutes for 72 people (i didn't collect 
+int[] screenTimeData = {
+  180, 600, 300, 240, 120, 360, 120, 720, 420, 300,
+  840, 180, 60, 120, 660, 840, 540, 120, 360, 60,
+  480, 540, 180, 360, 780, 360, 240, 480, 60, 300,
+  28, 420, 540, 120, 180, 420, 57, 120, 360, 600,
+  420, 480, 780, 55, 180, 60, 360, 43, 120, 360,
+  720, 300, 420, 300, 600, 420, 60, 46, 240, 540,
+  360, 180, 360, 480, 38, 480, 120, 240, 180, 540,
+  120, 300
+};
+// drawText function draws the key in the corner to explain the colour coding
+void drawText() {
+  fill(0); 
+  textSize(12);
+  textAlign(LEFT, CENTER);
+  text("Key :", 20, 20); // draws the title for the key
+// variables used for positioning the  boxes and labels
+  int spaceX = 20;
+  int spaceY = 40;
+  int boxSize = 15;
+  int spacing = 25; // vertical spacing between each item
+
+  // Green box and label for low screen time use
+  fill(0, 200, 0);
+  rect(spaceX, spaceY, boxSize, boxSize);
+  fill(0);
+  text("Low (≤ 200 mins)", spaceX + boxSize + 10, spaceY + boxSize / 2);
+
+  // Blue box and label for medium screen time use
+  fill(50, 100, 200);
+  rect(spaceX, spaceY + spacing, boxSize, boxSize);
+  fill(0);
+  text("Medium (201–500 mins)", spaceX + boxSize + 10, spaceY + spacing + boxSize / 2);
+
+   // Red box and label for high screen time use
+  fill(200, 50, 50);
+  rect(spaceX, spaceY + spacing * 2, boxSize, boxSize);
+  fill(0);
+  text("High (> 500 mins)", spaceX + boxSize + 10, spaceY + spacing * 2 + boxSize / 2);
+}
+// setup function runs once and sets up the visual
+void setup() {
+  size(1600, 600); // sets canvas size
+  background(255); // sets background to white
+  noStroke(); // removes the outline from bars
+
+  // add the title for the chart at the top center
+  textSize(20);
+  textAlign(CENTER);
+  fill(0);
+  text("Daily Screen Time per Person", width / 2, 30);
+// calculate the width of each bar based on the number of data points
+  int barWidth = width / screenTimeData.length;
+// Loop through each person's screen time data
+  for (int i = 0; i < screenTimeData.length; i++) {
+    int screenTime = screenTimeData[i];
+    float barHeight = map(screenTime, 0, 900, 0, height * 0.9);
+
+    // Choose bar colour based on the screen time range
+    if (screenTime <= 200) {
+      fill(0, 200, 0); // green for low
+    } else if (screenTime <= 500) {
+      fill(50, 100, 200); // blue for medium
+    } else {
+      fill(200, 50, 50); // red for high
+    }
+    // draw the bar at the correct position from left to right
+    rect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
+  }
+  drawText();   
+}
